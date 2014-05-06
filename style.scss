@@ -1,0 +1,36 @@
+
+tml, body {
+  padding: 0;
+  margin: 0;
+}
+
+a.obj {
+    z-index: 1000;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+button {
+    float: right;
+}
+
+a.region {
+    z-index: 1;
+    display: block;
+    background: lightgray;
+    position: absolute;
+    border: 0 solid peru;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    transition: background .20s ease-in-out;
+    -moz-transition: background .20s ease-in-out;
+    -webkit-transition: background .20s ease-in-out;
+
+    &.highlight {
+	background: oldlace;
+    }
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400"
+   height="400"
+   id="svg2257"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   version="1.0"
+   sodipodi:docbase="C:\Files\Pics\Misc Etc"
+   sodipodi:docname="Penrose_square.svg">
+  <defs
+     id="defs2259" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.43236065"
+     inkscape:cx="372.04724"
+     inkscape:cy="258.22733"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1024"
+     inkscape:window-height="712"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4" />
+  <metadata
+     id="metadata2262">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#e3d9e6;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.06300044;stroke-linecap:butt;stroke-linejoin:miter;marker-start:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 183.02689,27.17866 L 28.7884,185.25043 L 183.02689,340.3087 L 202.07199,318.66629 L 66.34212,180.86715 L 219.77588,25.53493 L 183.02689,27.17866 z "
+       id="path3398" />
+    <path
+       style="fill:#ffffdd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000036px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 67.79899,181.1239 L 219.72859,26.34551 L 373.1756,183.83591 L 373.74463,219.6732 L 220.86665,66.83197 L 87.71485,202.81999 L 67.79899,181.1239 z "
+       id="path5146" />
+    <path
+       style="fill:#d0e5d9;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000036px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 221.43567,68.18798 L 374.50333,221.51349 L 224.66015,374.5 L 187.10451,372.95028 L 336.37868,221.10185 L 202.27851,86.32909 L 221.43567,68.18798 z "
+       id="path6021" />
+    <path
+       style="fill:#d9e1fc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000036px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 316.08197,201.3429 L 335.99785,220.71442 L 186.72368,373.94307 L 25.5,212.57837 L 26.63804,184.4897 L 182.7405,340.04293 L 316.08197,201.3429 z "
+       id="path6896" />
+  </g>
+</svg>
