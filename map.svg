@@ -1,0 +1,10 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" onmouseup="handleMouseUp(evt)" onmousedown="handleMouseDown(evt)" onmousemove="handleMouseMove(evt)">
+  <script xlink:href="SVGPan.js"/>
+  <g id="viewport">
+    <g style="fill:#cccccc;" stroke-width="0.6" stroke="#cccccc" stroke-linejoin="round">
+      <polygon points="0,0 0,50 50,50 55,0"></polygon>
+      <polygon points="55,0 100,0 100,50 50,50"></polygon>
+    </g>
+  </g>
+</svg>

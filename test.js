@@ -1,191 +1,163 @@
+function SVG(tag) {
+   return document.createElementNS('http://www.w3.org/2000/svg', tag);
+}
 
-// TODO 
-// border should go outside grid squares
-// and added to position calc
-// should use a scaling funciton which scales the whole dungeon
-// that way can resize without redrawing entire thing
+function inArray(obj, someArray) {
+    return someArray.indexOf(obj) > -1;
+}
 
-// POF -- zoom
-// display objects in iframe
+var PathParser = {
+    directions: ['n', 's', 'e', 'w', 'j', 'k', 'l', 'm'],
+    scale: 13
+};
 
-
-$(function() {
-    var dungeon = [
-    "|---------------|------|",
-    "|a@aaaaaaaaaaaaa|jjbbbb|",
-    "|aaaaaaaaaaaaaaajjjbbbb|",
-    "|aaaaaaaaaaaaaaajbbbbbb|",
-    "|aaaaaaaaaaaaaaa|bbbbbb|",
-    "|aaaaaaaaaaaaaaa|------|",
-    "|----|h|--------|       ",
-    "     |h|-----|          ",
-    "    -|hhhhhhh|-         ",
-    "   |hhhhhhhhhhh|        ",
-    "   |hhhhhhhhhhh|        ",
-    "   |hhhhhhhhhhh|        ",
-    "   |hhhhhhhhhhh|        ",
-    "   |hhhhhhhhhhh|        ",
-    "   |-----------|        ",
-    ]
-
-    var unit = 'px';
-    var xScale = 10;
-    var yScale = 10;
-
-    objs = {
-    '@': {
-        'region': 'a',
-        'img': 'colorful_beach_shorts.svg',
-        'width': 1.5,
-        'click': function() {
-        console.log('DO SOMETHING!');
-        }
-    },
+PathParser.neighbor = function(row, col, direction) {
+    if (direction === 'n') {
+        return [row-1, col];
+    } else if (direction === 's') {
+        return [row+1, col];
+    } else if (direction === 'e') {
+        return [row, col+1];
+    } else if (direction === 'w') {
+        return [row, col-1];
+    } else if (direction === 'j') {
+        return [row+1, col-1];
+    } else if (direction === 'k') {
+        return [row-1, col-1];
+    } else if (direction === 'l') {
+        return [row-1, col+1];
+    } else if (direction === 'm') {
+        return [row+1, col+1];
     }
-   
-    // function symbolBefore(map, row, col) {
-    // if (col > 0) {
-    //     return map[row][col - 1];
-    // }
-    // return null;
-    // }
+}
 
-    // function symbolAfter(map, row, col) {
-    // if (col < map[row].length - 1) {
-    //     return map[row][col + 1];
-    // }
-    // return null;
-    // }
+PathParser.formatPoint = function(row, col) {
+    return (col * this.scale) + ',' + (row * this.scale);
+}
 
-    // function symbolAbove(map, row, col) {
-    // if (row > 0) {
-    //     return map[row - 1][col];
-    // }
-    // return null;
-    // }
-
-    // function symbolBelow(map, row, col) {
-    // if (row < map.length - 1) {
-    //     return map[row + 1][col];
-    // }
-    // return null;
-    // }
-
-    function topCenter(row, col) {
-    return (row * yScale) + (0.5 * yScale);
-    }
-    function leftCenter(row, col) {
-    return (col * xScale) + (0.5 * xScale);
-    }
-
-    function placeObject(obj, row, col) {
-    var anchor = $('<a class="obj"></a>').css({
-        'left': '' + leftCenter(row, col) - (0.5 * obj.width * xScale) + unit,
-    }).click(obj.click).appendTo('#grid');
-
-    var image = $('<img src="' + obj.img + '">').css({
-        'width': '' + obj.width * xScale + unit,
-    }).appendTo(anchor);
-
-    image.load(function() {
-        anchor.css({'top': '' + topCenter(row, col) - (0.5 * image.height()) + unit});
-    });
-    }
-
-    function drawMap(map, objs) {
+PathParser.startPoint = function(map) {
     for (var row=0; row < map.length; row++) {
         for (var col=0; col < map[row].length; col++) {
-        var symbol = map[row][col];
-
-        // check if symbol is object
-        if (objs[symbol] !== undefined) {
-            placeObject(objs[symbol], row, col);
-            symbol = objs[symbol].region; // swap for the region symbol (gross)
-        }
-
-        if ([' ', '-', '|'].indexOf(symbol) === -1) {
-            var elem = $('<a href="#" class="region"></a>').css({
-            'top': '' + row * xScale + unit,
-            'left': '' + col * yScale + unit,
-            'width': '' + xScale + unit,
-            'height': '' + yScale + unit,
-            }).attr({
-            'data-region': symbol,
-            'data-row': row,
-            'data-col': col,
-            });
-
-            // borders
-            // if (['|', '-'].indexOf(symbolBefore(map, row, col)) > -1) {
-            // elem.css({'border-left-width': '1px'});
-            // }
-            // if (['|', '-'].indexOf(symbolAfter(map, row, col)) > -1) {
-            // elem.css({'border-right-width': '1px'});
-            // }
-            // if (['|', '-'].indexOf(symbolBelow(map, row, col)) > -1) {
-            // elem.css({'border-bottom-width': '1px'});
-            // }
-            // if (['|', '-'].indexOf(symbolAbove(map, row, col)) > -1) {
-            // elem.css({'border-top-width': '1px'});
-            // }
-            
-            // highlight region
-            elem.hover(function() {
-            $('.region[data-region="' + $(this).data('region') + '"]').addClass('highlight');
-            }, function() {
-            $('.region[data-region="' + $(this).data('region') + '"]').removeClass('highlight');
-            });
-            
-            elem.appendTo($('#grid'));
-        }
+            if (inArray(map[row][col], this.directions)) {
+                return [row, col];
+            }
         }
     }
-    }
-   
-    function scaleMap(selector, duration) {
-    // regions
-    $(selector).css({
-        'top': function() {
-        return '' + $(this).data('row') * xScale + unit;
-        },
-        'left': function() {
-        return '' + $(this).data('col') * yScale + unit;
-        },
-        'width': '' + xScale + unit,
-        'height': '' + yScale + unit,
-    });
-    
-    // objects
+}
+
+PathParser.scanMap = function(map, row, col, direction, points) {
+    if (typeof points === 'undefined') {
+        points = [];
     }
 
-    drawMap(dungeon, objs);
+    if (inArray(map[row][col], this.directions)) {
+        if (inArray(this.formatPoint(row, col), points)) {
+            return points;
+        }
+        points.push(this.formatPoint(row, col));
+        direction = map[row][col];
+    }
+
+    var point = this.neighbor(row, col, direction);
+    return this.scanMap(map, point[0], point[1], direction, points);
+}
+
+$(function() {
+    function formatPoints(points) {
+        return points.reduce(function(previousValue, currentValue) { 
+            return previousValue + ' ' + currentValue;
+        });
+    }
+
+    function drawRegion(region) {
+        var startPoint = PathParser.startPoint(region.geo);
+        var points = PathParser.scanMap(region.geo, startPoint[0], startPoint[1]);
+
+        var group = $(SVG('g')).attr(
+            {'transform': 'translate(' + (region.offset[0] * PathParser.scale) + ',' + (region.offset[1] * PathParser.scale) + ')'
+        }).appendTo('svg#grid')
+        var poly = $(SVG('polygon')).attr({
+            'points': formatPoints(points, 10),
+            'class': 'region'
+        }).appendTo(group);
+    }
+
+    var dungeon = {
+        geo: [
+            " e---------------se------s ",
+            " |               ||      | ",
+            " |               en      | ",
+            " |                       | ",
+            " |               sw      | ",
+            " |               ||      | ",
+            " |               ||      j ",
+            " n               ||     /  ",
+            "  k--------ws----wn----w   ",
+            "           ||              ",
+            "           ||              ",
+            "           ||              ",
+            "           nm              ",
+            "            ``             ",
+            "             `e---s        ",
+            "              k---w        "
+        ],
+        offset: [0, 0]
+    }
+
+    var hall1 = {
+        geo: [
+            "  s--w ",
+            "  |  | ",
+            " sw  n ",
+            " e--l  "
+        ],
+        offset: [16, 0]
+    }
+
+    var hall2 = {
+        geo: [
+            "  m    ",
+            " l `   ",
+            "  ` `  ",
+            "   ` j ",
+            "    k  "
+        ],
+        offset: [0, 0]
+    }
+
+    var pathway = {
+        geo: [
+            " es       ",
+            " ||       ",
+            " ||       ",
+            " ||       ",
+            " nm       ",
+            "  ``      ",
+            "   `e---s ",
+            "    k---w "
+        ],
+        offset: [10, 8]
+    }
+
+    drawRegion(dungeon);
+    drawRegion(hall1);
+    drawRegion(hall2);
+    drawRegion(pathway);
+
+    // scale
+    function scaleSVG(increment) {
+        var svg = document.getElementsByTagName('svg')[0];
+        var viewBox = svg.getAttribute('viewBox').split(' ');
+        var newWidth = parseInt(viewBox[2]) + increment;
+        var newHeight = parseInt(viewBox[3]) + increment;
+
+        svg.setAttribute(
+            'viewBox', '0 0 ' + newWidth + ' ' + newHeight
+        );
+    }
 
     $('button.zoom').click(function() {
-    var amount = $(this).data('zoom-amount');
-    xScale += amount;
-    yScale += amount;
-    scaleMap('.region');
+        var increment = parseInt($(this).data('zoom-amount'));
+        scaleSVG(increment);
     });
 });
-
-
-
-
-
-// <regionid='a' w=17 h=6>
-//   <portal id='a1' top=3 right=0 dest='f1'>
-// </region>
-
-// <region id='f' w=3 h=3>
-//   <portal id='f1' top=1 left=0 dest='
-// </region>
-
-// <region id='b' w=8 h=5>
-// </region>
-
-
-// aaaaaaaaaaaaaaa   bbbbbb
-// aaaaaaaaaaaaaaafffbbbbbb
-// aaaaaaaaaaaaaaa   bbbbbb
-// aaaaaaaaaaaaaaa
-
