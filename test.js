@@ -1,163 +1,69 @@
-function SVG(tag) {
-   return document.createElementNS('http://www.w3.org/2000/svg', tag);
+var scaleX = 8;
+var scaleY = 8;
+
+var width = 440,
+    height = 308;
+
+var lineData = [{"y": 0, "x": 0}, {"y": 0, "x": 16}, {"y": 2, "x": 16}, {"y": 2, "x": 17}, {"y": 0, "x": 17}, {"y": 0, "x": 24}, {"y": 6, "x": 24}, {"y": 8, "x": 22}, {"y": 8, "x": 17}, {"y": 4, "x": 17}, {"y": 4, "x": 16}, {"y": 8, "x": 16}, {"y": 8, "x": 11}, {"y": 12, "x": 11}, {"y": 14, "x": 13}, {"y": 14, "x": 17}, {"y": 15, "x": 17}, {"y": 15, "x": 13}, {"y": 12, "x": 10}, {"y": 8, "x": 10}, {"y": 8, "x": 1}, {"y": 7, "x": 0}]
+
+var lineFunction = d3.svg.line()
+                         .x(function(d) { return d.x * scaleX; })
+                         .y(function(d) { return d.y * scaleY; })
+                         .interpolate('linear');
+
+var zoom = d3.behavior.zoom()
+    .scaleExtent([.5, 8])
+    .size([width, height])
+    .on('zoom', move);
+
+var svg = d3.select('body').append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+    .call(zoom)
+    .append('g');
+
+svg.append('rect')
+    .attr('class', 'overlay')
+    .attr('width', width * 10)
+    .attr('height', height * 10)
+    .attr('transform', translateCenter);
+
+svg.append('path')
+    .attr('d', lineFunction(lineData))
+    .attr('class', 'outline')
+    .attr('transform', translateCenter)
+    .transition()
+    .attr('transform', initialZoom)
+    .duration(750)
+    .delay(100);
+
+function initialZoom() {
+    var scale = 2;
+    var bbox = this.getBBox();
+    var x = width / 2 - (bbox.width * scale) / 2;
+    var y = height / 2 - (bbox.height * scale) / 2;
+    return translateTo([x, y], scale);
 }
 
-function inArray(obj, someArray) {
-    return someArray.indexOf(obj) > -1;
+function translateCenter() {
+    var bbox = this.getBBox();
+    var x = width / 2 - bbox.width / 2;
+    var y = height / 2 - bbox.height / 2;
+    return translateTo([x, y], 1);
 }
 
-var PathParser = {
-    directions: ['n', 's', 'e', 'w', 'j', 'k', 'l', 'm'],
-    scale: 13
-};
-
-PathParser.neighbor = function(row, col, direction) {
-    if (direction === 'n') {
-        return [row-1, col];
-    } else if (direction === 's') {
-        return [row+1, col];
-    } else if (direction === 'e') {
-        return [row, col+1];
-    } else if (direction === 'w') {
-        return [row, col-1];
-    } else if (direction === 'j') {
-        return [row+1, col-1];
-    } else if (direction === 'k') {
-        return [row-1, col-1];
-    } else if (direction === 'l') {
-        return [row-1, col+1];
-    } else if (direction === 'm') {
-        return [row+1, col+1];
-    }
+function translateTo(point, scale) {
+    return 'translate(' + point[0] + ',' + point[1] + ')scale(' + scale + ')';
 }
 
-PathParser.formatPoint = function(row, col) {
-    return (col * this.scale) + ',' + (row * this.scale);
+function move() {
+    // var t = d3.event.translate,
+    //     s = d3.event.scale;
+    // t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+    // t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+    // zoom.translate(t);
+    // svg.attr("transform", "translate(" + t + ")scale(" + s + ")");
+    svg.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
 }
 
-PathParser.startPoint = function(map) {
-    for (var row=0; row < map.length; row++) {
-        for (var col=0; col < map[row].length; col++) {
-            if (inArray(map[row][col], this.directions)) {
-                return [row, col];
-            }
-        }
-    }
-}
-
-PathParser.scanMap = function(map, row, col, direction, points) {
-    if (typeof points === 'undefined') {
-        points = [];
-    }
-
-    if (inArray(map[row][col], this.directions)) {
-        if (inArray(this.formatPoint(row, col), points)) {
-            return points;
-        }
-        points.push(this.formatPoint(row, col));
-        direction = map[row][col];
-    }
-
-    var point = this.neighbor(row, col, direction);
-    return this.scanMap(map, point[0], point[1], direction, points);
-}
-
-$(function() {
-    function formatPoints(points) {
-        return points.reduce(function(previousValue, currentValue) { 
-            return previousValue + ' ' + currentValue;
-        });
-    }
-
-    function drawRegion(region) {
-        var startPoint = PathParser.startPoint(region.geo);
-        var points = PathParser.scanMap(region.geo, startPoint[0], startPoint[1]);
-
-        var group = $(SVG('g')).attr(
-            {'transform': 'translate(' + (region.offset[0] * PathParser.scale) + ',' + (region.offset[1] * PathParser.scale) + ')'
-        }).appendTo('svg#grid')
-        var poly = $(SVG('polygon')).attr({
-            'points': formatPoints(points, 10),
-            'class': 'region'
-        }).appendTo(group);
-    }
-
-    var dungeon = {
-        geo: [
-            " e---------------se------s ",
-            " |               ||      | ",
-            " |               en      | ",
-            " |                       | ",
-            " |               sw      | ",
-            " |               ||      | ",
-            " |               ||      j ",
-            " n               ||     /  ",
-            "  k--------ws----wn----w   ",
-            "           ||              ",
-            "           ||              ",
-            "           ||              ",
-            "           nm              ",
-            "            ``             ",
-            "             `e---s        ",
-            "              k---w        "
-        ],
-        offset: [0, 0]
-    }
-
-    var hall1 = {
-        geo: [
-            "  s--w ",
-            "  |  | ",
-            " sw  n ",
-            " e--l  "
-        ],
-        offset: [16, 0]
-    }
-
-    var hall2 = {
-        geo: [
-            "  m    ",
-            " l `   ",
-            "  ` `  ",
-            "   ` j ",
-            "    k  "
-        ],
-        offset: [0, 0]
-    }
-
-    var pathway = {
-        geo: [
-            " es       ",
-            " ||       ",
-            " ||       ",
-            " ||       ",
-            " nm       ",
-            "  ``      ",
-            "   `e---s ",
-            "    k---w "
-        ],
-        offset: [10, 8]
-    }
-
-    drawRegion(dungeon);
-    drawRegion(hall1);
-    drawRegion(hall2);
-    drawRegion(pathway);
-
-    // scale
-    function scaleSVG(increment) {
-        var svg = document.getElementsByTagName('svg')[0];
-        var viewBox = svg.getAttribute('viewBox').split(' ');
-        var newWidth = parseInt(viewBox[2]) + increment;
-        var newHeight = parseInt(viewBox[3]) + increment;
-
-        svg.setAttribute(
-            'viewBox', '0 0 ' + newWidth + ' ' + newHeight
-        );
-    }
-
-    $('button.zoom').click(function() {
-        var increment = parseInt($(this).data('zoom-amount'));
-        scaleSVG(increment);
-    });
-});

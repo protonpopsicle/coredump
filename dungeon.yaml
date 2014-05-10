@@ -1,0 +1,55 @@
+---
+class: outline
+---
+
+e---------------se------s
+|               ||      |
+|               en      |
+|                       |
+|               sw      | 
+|               ||      | 
+|               ||      j 
+n               ||     /  
+ k--------ws----wn----w   
+          ||              
+          ||              
+          ||              
+          nm             
+           ``            
+            `e---s    
+             k---w       
+
+---
+class: region
+name: hall1
+---
+
+ s--w
+ |  |
+sw  n
+e--l
+
+---
+class: region
+name: hall2
+---
+
+  m 
+ l `
+  ` ` 
+   ` j
+    k 
+
+---
+class: region
+name: pathway
+---
+
+es     
+||      
+||      
+||      
+nm      
+ ``     
+  `e---s
+   k---w

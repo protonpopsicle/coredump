@@ -1,18 +1,30 @@
 html, body {
   padding: 0;
-  margin: 0; }
+  margin: 0; 
+}
 
-button {
-  float: right; }
+svg {
+  font: 10px sans-serif;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
-svg#grid {
-  margin-top: 50px; }
+rect.overlay {
+    fill: #ffeeff;
+}
 
-polygon.region {
-  fill: #cccccc;
-  /*    shape-rendering: crispEdges;*/
-  transition: fill .20s ease-in-out;
-  -moz-transition: fill .20s ease-in-out;
-  -webkit-transition: fill .20s ease-in-out; }
-  polygon.region.region:hover {
-    fill: yellow; }
+path.outline {
+    fill: #101011;
+}
+
+path.region {
+    fill: #cccccc;
+    transition: fill .20s ease-in-out;
+    -moz-transition: fill .20s ease-in-out;
+    -webkit-transition: fill .20s ease-in-out; 
+}
+
+path.region:hover {
+  fill: yellow; 
+}
