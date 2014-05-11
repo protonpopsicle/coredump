@@ -1,6 +1,7 @@
 html, body {
   padding: 0;
   margin: 0; 
+  height: 100%;
 }
 
 svg {
@@ -8,6 +9,14 @@ svg {
   position: absolute;
   top: 0;
   right: 0;
+  opacity: 0.6;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    border: none;
 }
 
 rect.overlay {
@@ -15,16 +24,19 @@ rect.overlay {
 }
 
 path.outline {
-    fill: #101011;
+    fill: #000;
 }
 
 path.region {
-    fill: #cccccc;
+    fill: #000;
+    stroke-width: 0;
+    stroke: yellow;
     transition: fill .20s ease-in-out;
     -moz-transition: fill .20s ease-in-out;
-    -webkit-transition: fill .20s ease-in-out; 
+    -webkit-transition: fill .20s ease-in-out;
 }
 
 path.region:hover {
-  fill: yellow; 
+  fill: yellow;
+  stroke-width: 1;
 }

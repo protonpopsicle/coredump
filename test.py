@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import json
+import yaml
+
 """
       n
     k   l
@@ -36,32 +38,36 @@ def start_point(char_map):
             if char in directions:
                 return row_idx, col_idx
 
-# this should be iterative instead of recursive
-def scan_map(char_map, point=None, direction=None, path=[]):
-    if not point:
-        point = start_point(char_map)
+def scan_map(char_map):
+    path = []
+    point = start_point(char_map)
+    direction = None
 
-    char = char_map[point[0]][point[1]]
+    while True:
+        char = char_map[point[0]][point[1]]
 
-    if char in directions:
-        if point in path:
-            return path
-        path.append(point)
-        direction = char
+        if char in directions:
+            if point in path:
+                path.append(point)
+                return path
+            path.append(point)
+            direction = char
 
-    new_point = neighbor(point, direction)
-    return scan_map(char_map, new_point, direction, path)
-
+        point = neighbor(point, direction)
+        
 def format_path(path):
     return [{'x': point[1], 'y': point[0]} for point in path]
 
-# TODO: take arguments
+# TODO: input file path as argument
 if __name__ == '__main__':
-    with open('/Users/scott/Desktop/coredump/dungeon.txt') as f:
-        content = [line.rstrip() for line in f.readlines()]
+    with open('/Users/scott/Desktop/coredump/dungeon.yaml') as f:
+        data = yaml.load(f)
 
-    path = scan_map(content)
-    print json.dumps(format_path(path))
+    for d in data['regions']:
+        path = scan_map(d['path'].splitlines())
+        d['path'] = format_path(path)
+
+    print json.dumps(data)
 
     # write out points to json file
 

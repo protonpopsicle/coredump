@@ -1,55 +1,55 @@
----
-class: outline
----
+# ASCII Art
 
-e---------------se------s
-|               ||      |
-|               en      |
-|                       |
-|               sw      | 
-|               ||      | 
-|               ||      j 
-n               ||     /  
- k--------ws----wn----w   
-          ||              
-          ||              
-          ||              
-          nm             
-           ``            
-            `e---s    
-             k---w       
+regions:
+  - name: Dungeon
+    path: |
+      e---------------se------s
+      |               ||      |
+      |               en      |
+      |                       |
+      |               sw      | 
+      |               ||      | 
+      |               ||      j 
+      n               ||     /  
+       k--------ws----wn----w   
+                ||              
+                ||              
+                ||              
+                nm             
+                 ``            
+                  `e---s    
+                   k---w     
 
----
-class: region
-name: hall1
----
+  - name: Room
+    offset: [0, 16]
+    path: |2
+       s--w
+       |  |
+      sw  n 
+      e--l
 
- s--w
- |  |
-sw  n
-e--l
+  - name: Passage
+    path: |2
+       m 
+      l `
+       ` ` 
+        ` j
+         k 
 
----
-class: region
-name: hall2
----
+  - name: Hallway
+    offset: [8, 10]
+    path: | 
+      es     
+      ||      
+      ||      
+      ||      
+      nm      
+       ``     
+        `e---s
+         k---w
 
-  m 
- l `
-  ` ` 
-   ` j
-    k 
-
----
-class: region
-name: pathway
----
-
-es     
-||      
-||      
-||      
-nm      
- ``     
-  `e---s
-   k---w
+objects:
+  - name: Shorts
+    offset: [1, 1]
+    src: 'colorful_beach_shorts.svg'
+    href: 'http://yahoo.com'
