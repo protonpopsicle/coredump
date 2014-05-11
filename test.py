@@ -48,7 +48,6 @@ def scan_map(char_map):
 
         if char in directions:
             if point in path:
-                path.append(point)
                 return path
             path.append(point)
             direction = char

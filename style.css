@@ -9,7 +9,6 @@ svg {
   position: absolute;
   top: 0;
   right: 0;
-  opacity: 0.6;
 }
 
 iframe {
@@ -23,20 +22,32 @@ rect.overlay {
     fill: #ffeeff;
 }
 
-path.outline {
-    fill: #000;
-}
-
-path.region {
-    fill: #000;
-    stroke-width: 0;
-    stroke: yellow;
+g.marker path {
+    fill: cyan;
     transition: fill .20s ease-in-out;
     -moz-transition: fill .20s ease-in-out;
     -webkit-transition: fill .20s ease-in-out;
 }
 
-path.region:hover {
+g.marker:hover path {
   fill: yellow;
+  cursor: pointer;
+}
+
+path.region:first-child {
+    fill: green;
+}
+
+path.region:not(:first-child) {
+    fill: darkgreen;
+    stroke-width: 0;
+    stroke: #0F0;
+    transition: stroke-width .20s ease-in-out;
+    -moz-transition: stroke-width .20s ease-in-out;
+    -webkit-transition: stroke-width .20s ease-in-out;
+}
+
+path.region:not(:first-child):hover {
   stroke-width: 1;
+  cursor: pointer;
 }

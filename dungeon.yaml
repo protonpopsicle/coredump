@@ -1,4 +1,4 @@
-# ASCII Art
+# YAML
 
 regions:
   - name: Dungeon
@@ -49,7 +49,16 @@ regions:
          k---w
 
 objects:
-  - name: Shorts
+  - name: Rhizome
     offset: [1, 1]
-    src: 'colorful_beach_shorts.svg'
-    href: 'http://yahoo.com'
+    href: 'http://schneeblog.com/wp-content/uploads/2014/04/the-matrix-neo.jpg'
+    marker:
+      - "M 0 100 L 26 48 L 74 48 L 100 100 L 50 80 z"
+      - "M 30 40 L 50 0 L 70 40 z"
+
+  - name: Art F City
+    offset: [6, 4]
+    href: 'http://www.quickmeme.com/img/15/15dbaf9699b87fc1c90d8241e53b3aa2a08beab668584ee796c320d2c7415ef6.jpg'
+    marker:
+      - "M 0 100 L 26 48 L 74 48 L 100 100 L 50 80 z"
+      - "M 30 40 L 50 0 L 70 40 z"
