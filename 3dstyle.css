@@ -1,0 +1,27 @@
+html, body {
+  padding: 0;
+  margin: 0; 
+  height: 100%;
+}
+
+#assembly {
+  -webkit-perspective: 500px;
+  -webkit-perspective-origin: 0% 75%;
+  -moz-perspective: 500px;
+  -moz-perspective-origin: 0% 75%;
+}
+
+.geo {
+  width: 500px;
+  height: 500px;
+  background: red;
+  -webkit-transform: rotateY( 45deg ) translateX(1000px);
+  -moz-transform: rotateY( 45deg ) translateX(1000px);
+  transition: -webkit-transform 1s;
+}
+
+.geo:hover {
+  background: blue;
+  -webkit-transform: rotateY( 45deg ) translateX(-200px);
+  -moz-transform: rotateY( 45deg ) translateX(-200px);
+}

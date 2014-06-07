@@ -12,13 +12,13 @@ regions:
       |               ||      j 
       n               ||     /  
        k--------ws----wn----w   
-                ||              
-                ||              
-                ||              
-                nm             
-                 ``            
-                  `e---s    
-                   k---w     
+                ||          e--------------------------m   
+                ||          |                           s
+                ||          |                           |
+                nm          |                           |
+                 \\         |                           |
+                  \e--------n                           |
+                   k------------------------------------w     
 
   - name: Room
     offset: [0, 16]
@@ -31,9 +31,9 @@ regions:
   - name: Passage
     path: |2
        m 
-      l `
-       ` ` 
-        ` j
+      l \
+       \ \ 
+        \ j
          k 
 
   - name: Hallway
@@ -44,8 +44,8 @@ regions:
       ||      
       ||      
       nm      
-       ``     
-        `e---s
+       \\     
+        \e---s
          k---w
 
 objects:
