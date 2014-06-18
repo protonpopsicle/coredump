@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
+import argparse
 import json
+import os
 import yaml
 
 """
@@ -57,9 +59,13 @@ def scan_map(char_map):
 def format_path(path):
     return [{'x': point[1], 'y': point[0]} for point in path]
 
-# TODO: input file path as argument
 if __name__ == '__main__':
-    with open('/Users/scott/Desktop/coredump/dungeon.yaml') as f:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('map_file', type=str)
+    args = parser.parse_args()
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+
+    with open(os.path.join(current_dir, args.map_file)) as f:
         data = yaml.load(f)
 
     for d in data['regions']:
@@ -67,6 +73,3 @@ if __name__ == '__main__':
         d['path'] = format_path(path)
 
     print json.dumps(data)
-
-    # write out points to json file
-
